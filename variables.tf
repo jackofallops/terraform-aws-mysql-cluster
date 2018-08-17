@@ -72,3 +72,8 @@ variable "server_role" {
   description = "Tag to specify the server's role in configuration management"
   default     = "base"
 }
+
+variable "cluster_name_prefix" {
+  description = "Name for the cluster - will be appended with the count index of the AZ"
+  default     = "my-mysql-cluster"
+}

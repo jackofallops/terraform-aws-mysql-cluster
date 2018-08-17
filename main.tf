@@ -15,10 +15,11 @@ data "aws_ami" "mysql_cluster_ami" {
 }
 
 resource "aws_instance" "mysql_enterprise_cluster" {
-  count             = "${var.cluster_size}"
+  count = "${var.cluster_size}"
+
   ami               = "${data.aws_ami.mysql_cluster_ami.id}"
   instance_type     = "${var.cluster_instance_type}"
-  availability_zone = "${data.aws_availability_zones.available.Name[count.index]}"
+  availability_zone = "${data.aws_availability_zones.available.names[count.index]}"
 
   root_block_device {
     delete_on_termination = "true"
@@ -36,7 +37,7 @@ resource "aws_instance" "mysql_enterprise_cluster" {
   }
 
   tags {
-    Name       = ""
-    ServerRole = "${}"
+    Name       = "${var.cluster_name_prefix}-${count.index}"
+    ServerRole = "${var.server_role}"
   }
 }
