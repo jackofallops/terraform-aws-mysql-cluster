@@ -15,12 +15,12 @@ variable "cluster_instance_type" {
 
 variable "data_volume_size" {
   description = "Size, in GB, for the EBS Data Disk for the node(s)"
-  default     = 150
+  default     = 10
 }
 
 variable "data_volume_iops" {
   description = "IOPS for the Data volume (default 3000)"
-  default     = 3000
+  default     = 2000
 }
 
 variable "data_volume_delete" {
