@@ -2,6 +2,8 @@ provider "aws" {
   region = "${var.region}"
 }
 
+data "aws_caller_identity" "current" {}
+
 data "aws_availability_zones" "available" {}
 
 data "aws_ami" "mysql_cluster_ami" {
@@ -20,6 +22,7 @@ resource "aws_instance" "mysql_enterprise_cluster" {
   ami               = "${data.aws_ami.mysql_cluster_ami.id}"
   instance_type     = "${var.cluster_instance_type}"
   availability_zone = "${data.aws_availability_zones.available.names[count.index]}"
+  iam_instance_profile = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:instance-profile/S3_EC2_role"
 
   root_block_device {
     delete_on_termination = "true"
@@ -36,8 +39,10 @@ resource "aws_instance" "mysql_enterprise_cluster" {
     encrypted             = "${var.data_volume_encrypted}"
   }
 
-  tags {
-    Name       = "${var.cluster_name_prefix}-${count.index}"
-    ServerRole = "${var.server_role}"
-  }
+  # tags {
+  #   Name       = "${var.cluster_name_prefix}-${count.index}"
+  #   ServerRole = "${var.server_role}"
+  # }
+
+  tags = "${merge(var.base_tags, var.extra_tags)}"
 }
