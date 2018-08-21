@@ -80,11 +80,16 @@ variable "cluster_name_prefix" {
 
 variable "base_tags" {
   description = "map of tags to apply - will be merged at runtime"
-  type = "map"
-  default = {}
+  type        = "map"
+  default     = {}
 }
+
 variable "extra_tags" {
   description = "map of extra tags to apply - will be merged at runtime"
-  type = "map"
-  default = {}
+  type        = "map"
+  default     = {}
+}
+
+variable "user_data_base64" {
+  description = "Base64 Encoded string containing the complete mulitpart cloud-init config"
 }

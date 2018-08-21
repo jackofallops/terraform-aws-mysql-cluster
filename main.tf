@@ -19,10 +19,11 @@ data "aws_ami" "mysql_cluster_ami" {
 resource "aws_instance" "mysql_enterprise_cluster" {
   count = "${var.cluster_size}"
 
-  ami               = "${data.aws_ami.mysql_cluster_ami.id}"
-  instance_type     = "${var.cluster_instance_type}"
-  availability_zone = "${data.aws_availability_zones.available.names[count.index]}"
+  ami                  = "${data.aws_ami.mysql_cluster_ami.id}"
+  instance_type        = "${var.cluster_instance_type}"
+  availability_zone    = "${data.aws_availability_zones.available.names[count.index]}"
   iam_instance_profile = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:instance-profile/S3_EC2_role"
+  user_data_base64     = "${var.user_data_base64}"
 
   root_block_device {
     delete_on_termination = "true"
