@@ -77,3 +77,14 @@ variable "cluster_name_prefix" {
   description = "Name for the cluster - will be appended with the count index of the AZ"
   default     = "my-mysql-cluster"
 }
+
+variable "base_tags" {
+  description = "map of tags to apply - will be merged at runtime"
+  type = "map"
+  default = {}
+}
+variable "extra_tags" {
+  description = "map of extra tags to apply - will be merged at runtime"
+  type = "map"
+  default = {}
+}
